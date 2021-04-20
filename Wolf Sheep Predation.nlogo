@@ -1,10 +1,10 @@
-globals [ max-sheep ]  ; don't let the sheep population grow too large
+globals [ max-sheep ]  ; Não permite que a população de ovelhas cresça demais.
 
-; Sheep and wolves are both breeds of turtles
-breed [ sheep a-sheep ]  ; sheep is its own plural, so we use "a-sheep" as the singular
+; Ovelhas e Lobos são espécies de turtles
+breed [ sheep a-sheep ]  ; não confundir o nome da RAÇA (no plural) com o nome do turtle (no singular)
 breed [ wolves wolf ]
 
-turtles-own [ energy ]       ; both wolves and sheep have energy
+turtles-own [ energy ]       ; tanto ovelhas como lobos possuem energia
 
 patches-own [ countdown ]    ; this is for the sheep-wolves-grass model version
 
@@ -12,36 +12,36 @@ to setup
   clear-all
   ifelse netlogo-web? [ set max-sheep 10000 ] [ set max-sheep 30000 ]
 
-  ; Check model-version switch
-  ; if we're not modeling grass, then the sheep don't need to eat to survive
-  ; otherwise each grass' state of growth and growing logic need to be set up
+  ; Checar a versão do modelo selecionada
+  ; se não houver modelagem de grama, então as ovelhas não precisam comer para sobreviver
+  ; caso contrário, o estado e a lógica de crescimento de cada grama precisa ser configurada
   ifelse model-version = "sheep-wolves-grass" [
     ask patches [
       set pcolor one-of [ green brown ]
       ifelse pcolor = green
         [ set countdown grass-regrowth-time ]
-      [ set countdown random grass-regrowth-time ] ; initialize grass regrowth clocks randomly for brown patches
+      [ set countdown random grass-regrowth-time ] ; inicializa os tempos de recrescimento da grama, de maneira aleatória, para os espaços marrons
     ]
   ]
   [
     ask patches [ set pcolor green ]
   ]
 
-  create-sheep initial-number-sheep  ; create the sheep, then initialize their variables
+  create-sheep initial-number-sheep  ; cria ovelhas e então inicializa as suas variáveis
   [
     set shape  "sheep"
     set color white
-    set size 1.5  ; easier to see
+    set size 1.5  ; o tamanho 1.5 facilita a visualização
     set label-color blue - 2
     set energy random (2 * sheep-gain-from-food)
     setxy random-xcor random-ycor
   ]
 
-  create-wolves initial-number-wolves  ; create the wolves, then initialize their variables
+  create-wolves initial-number-wolves  ; cria lobos e então inicializa as suas variáveis
   [
     set shape "wolf"
     set color black
-    set size 2  ; easier to see
+    set size 2  ; o tamanho 2 facilita a visualização
     set energy random (2 * wolf-gain-from-food)
     setxy random-xcor random-ycor
   ]
@@ -50,28 +50,28 @@ to setup
 end
 
 to go
-  ; stop the model if there are no wolves and no sheep
+  ; para a simulação caso não hajam lobos ou ovelhas no modelo
   if not any? turtles [ stop ]
-  ; stop the model if there are no wolves and the number of sheep gets very large
-  if not any? wolves and count sheep > max-sheep [ user-message "The sheep have inherited the earth" stop ]
+  ; para a simulação caso não hajam lobos e o número de ovelhas seja muito grande
+  if not any? wolves and count sheep > max-sheep [ user-message "As ovelhas dominaram a terra." stop ]
   ask sheep [
     move
 
-    ; in this version, sheep eat grass, grass grows, and it costs sheep energy to move
+    ; nesta versão, as ovelhas comem grama, grama cresce e as ovelhas gastam energia para se moverem
     if model-version = "sheep-wolves-grass" [
-      set energy energy - 1  ; deduct energy for sheep only if running sheep-wolves-grass model version
-      eat-grass  ; sheep eat grass only if running the sheep-wolves-grass model version
-      death ; sheep die from starvation only if running the sheep-wolves-grass model version
+      set energy energy - 1  ; diminui a energia de ovelhas apenas na versão do modelo com grama
+      eat-grass  ; ovelhas comem grama apenas na versão do modelo com grama 
+      death ; ovelhas morrem de fome apenas na versão do modelo com grama 
     ]
 
-    reproduce-sheep  ; sheep reproduce at a random rate governed by a slider
+    reproduce-sheep  ; ovelhas se reproduzem numa taxa aleatória definida pelo slider
   ]
   ask wolves [
     move
-    set energy energy - 1  ; wolves lose energy as they move
-    eat-sheep ; wolves eat a sheep on their patch
-    death ; wolves die if they run out of energy
-    reproduce-wolves ; wolves reproduce at a random rate governed by a slider
+    set energy energy - 1  ; lobos perdem energia quando se movem 
+    eat-sheep ; lobos comem uma ovelhas que estejam no mesmo PATCH 
+    death ; lobos morrem se ficarem sem energia
+    reproduce-wolves ; lobos se reproduzem numa taxa aleatória definida pelo slider
   ]
 
   if model-version = "sheep-wolves-grass" [ ask patches [ grow-grass ] ]
@@ -80,49 +80,49 @@ to go
   display-labels
 end
 
-to move  ; turtle procedure
+to move  ; procedimento de TURTLE 
   rt random 50
   lt random 50
   fd 1
 end
 
-to eat-grass  ; sheep procedure
-  ; sheep eat grass and turn the patch brown
+to eat-grass  ; procedimento de OVELHA
+  ; ovelhas comem grama e mudam a cor do PATCH para marrom
   if pcolor = green [
     set pcolor brown
-    set energy energy + sheep-gain-from-food  ; sheep gain energy by eating
+    set energy energy + sheep-gain-from-food  ; ovelhas ganham energia se alimentando de grama
   ]
 end
 
-to reproduce-sheep  ; sheep procedure
-  if random-float 100 < sheep-reproduce [  ; throw "dice" to see if you will reproduce
-    set energy (energy / 2)                ; divide energy between parent and offspring
-    hatch 1 [ rt random-float 360 fd 1 ]   ; hatch an offspring and move it forward 1 step
+to reproduce-sheep  ; procedimento de OVELHA
+  if random-float 100 < sheep-reproduce [  ; realiza um sorteio para verificar se haverá reprodução
+    set energy (energy / 2)                ; divide a energia entre o pai e o filho gerado
+    hatch 1 [ rt random-float 360 fd 1 ]   ; gera um filho e o move 1 passo para frente
   ]
 end
 
-to reproduce-wolves  ; wolf procedure
-  if random-float 100 < wolf-reproduce [  ; throw "dice" to see if you will reproduce
-    set energy (energy / 2)               ; divide energy between parent and offspring
-    hatch 1 [ rt random-float 360 fd 1 ]  ; hatch an offspring and move it forward 1 step
+to reproduce-wolves  ; procedimento de LOBO
+  if random-float 100 < wolf-reproduce [  ; realiza um sorteio para verificar se haverá reprodução
+    set energy (energy / 2)               ; divide a energia entre o pai e o filho gerado
+    hatch 1 [ rt random-float 360 fd 1 ]  ; gera um filho e o move 1 passo para frente
   ]
 end
 
-to eat-sheep  ; wolf procedure
-  let prey one-of sheep-here                    ; grab a random sheep
-  if prey != nobody  [                          ; did we get one? if so,
-    ask prey [ die ]                            ; kill it, and...
-    set energy energy + wolf-gain-from-food     ; get energy from eating
+to eat-sheep  ; procedimento de LOBO
+  let prey one-of sheep-here                    ; seleciona uma ovelha aleatória
+  if prey != nobody  [                          ; verifica se houve uma captura. caso sim,
+    ask prey [ die ]                            ; elimina a ovelha e...
+    set energy energy + wolf-gain-from-food     ; recebe energia se alimentando
   ]
 end
 
-to death  ; turtle procedure (i.e. both wolf and sheep procedure)
-  ; when energy dips below zero, die
+to death  ; procedimento de TURTLE (ou seja, procedimento tanto de LOBO quanto de OVELHA)
+  ; quando a energia fica abaixo de zero, a turtle é eliminada.
   if energy < 0 [ die ]
 end
 
-to grow-grass  ; patch procedure
-  ; countdown on brown patches: if you reach 0, grow some grass
+to grow-grass  ; procedimento de PATCH
+  ; contagem regressiva para PATCHES marrons: quando chegar a 0, a grama cresce
   if pcolor = brown [
     ifelse countdown <= 0
       [ set pcolor green
@@ -149,7 +149,7 @@ end
 
 
 ; Copyright 1997 Uri Wilensky.
-; See Info tab for full copyright and license.
+; Veja a aba de Informação para informações de copyright e licença.
 @#$#@#$#@
 GRAPHICS-WINDOW
 355
@@ -411,87 +411,87 @@ model-version
 "sheep-wolves" "sheep-wolves-grass"
 0
 @#$#@#$#@
-## WHAT IS IT?
+## O QUE É?
 
-This model explores the stability of predator-prey ecosystems. Such a system is called unstable if it tends to result in extinction for one or more species involved.  In contrast, a system is stable if it tends to maintain itself over time, despite fluctuations in population sizes.
+Este modelo explora a estabiladade de ecossistemas predador-presa. Esse sistema é chamado de instável se tende a resultar na extinção de uma ou mais espécies envolvidas. Do contrário, um sistema assim é chamado de estável se tende a se manter durante o tempo, apesar das flutuações no tamanho das populações envolvidas.
 
-## HOW IT WORKS
+## COMO FUNCIONA?
 
-There are two main variations to this model.
+Existem duas principais variações para este modelo.
 
-In the first variation, the "sheep-wolves" version, wolves and sheep wander randomly around the landscape, while the wolves look for sheep to prey on. Each step costs the wolves energy, and they must eat sheep in order to replenish their energy - when they run out of energy they die. To allow the population to continue, each wolf or sheep has a fixed probability of reproducing at each time step. In this variation, we model the grass as "infinite" so that sheep always have enough to eat, and we don't explicitly model the eating or growing of grass. As such, sheep don't either gain or lose energy by eating or moving. This variation produces interesting population dynamics, but is ultimately unstable. This variation of the model is particularly well-suited to interacting species in a rich nutrient environment, such as two strains of bacteria in a petri dish (Gause, 1934).
+Na primeira variação, a versão "ovelhas-lobos", lobos e ovelhas vagam de maneira aleatória pelo ambiente, enquanto os lobos caçam as ovelhas. Cada passo dado pelos lobos custa energia e eles precisam comer as ovelhas para repor o que gastaram - quando eles ficam sem energia, eles morrem.
 
-The second variation, the "sheep-wolves-grass" version explictly models grass (green) in addition to wolves and sheep. The behavior of the wolves is identical to the first variation, however this time the sheep must eat grass in order to maintain their energy - when they run out of energy they die. Once grass is eaten it will only regrow after a fixed amount of time. This variation is more complex than the first, but it is generally stable. It is a closer match to the classic Lotka Volterra population oscillation models. The classic LV models though assume the populations can take on real values, but in small populations these models underestimate extinctions and agent-based models such as the ones here, provide more realistic results. (See Wilensky & Rand, 2015; chapter 4).
+Na segunda variação, a versão "ovelhas-lobos-grama" modela explicitamente a grama (cor verde) além dos lobos e ovelhas. O comportamento dos lobos é idêntico a primeira variação mostrada, contudo, desta vez as ovelhas precisam comer grama para manter suas energias - caso zerem sua energia, elas morrem. Quando a grama é comida, ela só irá crescer novamente após um tempo fixado. Esta variação é mais complexa do que a primeira, mas é geralmente estável. Também se assemelha bastante aos clássicos modelos de oscilação de população da Lotka Volterra. Os modelos clássicos LV, no entanto, assumem que as populações podem assumir valores reais, mas em populações pequenas esses modelos subestimam extinções. Modelos baseados em agentes, como esse, fornecem resultados mais realistas. (Veja Wilenky & Rand, 2015; capítulo 4)
 
-The construction of this model is described in two papers by Wilensky & Reisman (1998; 2006) referenced below.
+A construção deste modelo é descrita em dois papers por Wilensky & Reisman (1998; 2006) refenciado abaixo.
 
-## HOW TO USE IT
+## COMO USAR
+                                                                            
+1. Escolha a versão do modelo "ovelhas-lobos-grama" para incluir a alimentação e crescimento da grama, ou "ovelhas-lobos" para incluir apenas lobos (pretos) e ovelhas (brancos).                                                                            
+2. Ajuste os parâmetros nos sliders (veja abaixo) ou use as configurações padrão.
+3. Pressione o botão CONFIGURAR.                                                                          
+4. Pressione o botão COMEÇAR para começar a simulação.                                                                          
+5. Verifique os monitores para ver os tamanhos atuais das populações.                                                                           
+6. Verifique o monitor POPULAÇÃO para ver as populações flutuarem com o tempo.                                                                           
+                                                                            
+Parâmetros:
+VERSÃO-MODELO: se será modelado ovelhas, lobos e grama ou apenas ovelhas e lobos.                                                                            
+NUMERO-INICIAL-OVELHAS: o tamanho inicial da população de OVELHAS. 
+NUMERO-INICIAL-LOBOS: o tamanho inicial da população de LOBOS.
+GANHO-ENERGIA-OVELHA: a quantidade de energia que as ovelhas conseguem para cada PATCH de grama comido (Note que este não é usado na versão do modelo "ovelhas-lobos") 
+GANHO-ENERGIA-LOBO: a quantidade de energia que os lobos conseguem para cada ovelha comida.
+REPRODUÇÃO-OVELHAS: a probabilidade de uma ovelha se reproduzir a cada passo de tempo.     
+REPRODUÇÃO-LOBOS: a probabilidade de um lobo se reproduzir a cada passo de tempo.                                                                                 
+TEMPO-CRESCIMENTO-GRAMA: quanto tempo leva para a grama crescer novamente depois que foi comida (Note que este não é usado na versão do modelo "ovelhas-lobos")
+MOSTRAR-ENERGIA?: mostrar ou não a energia de cada animal como um número                                                                            
+                                                                   
+Notas:
+- uma unidade de energia é deduzida para cada passo dado por um lobo                                                                            
+- quando executando a versão do modelo ovelhas-lobos-grama, uma unidade de energia é deduzida para cada passo dado por uma ovelha                                                                            
 
-1. Set the model-version chooser to "sheep-wolves-grass" to include grass eating and growth in the model, or to "sheep-wolves" to only include wolves (black) and sheep (white).
-2. Adjust the slider parameters (see below), or use the default settings.
-3. Press the SETUP button.
-4. Press the GO button to begin the simulation.
-5. Look at the monitors to see the current population sizes
-6. Look at the POPULATIONS plot to watch the populations fluctuate over time
+Existem três monitores para mostrar as populações de lobos, ovelhas e grama e um gráfico de populações para mostrar os valores da população ao longo do tempo.
 
-Parameters:
-MODEL-VERSION: Whether we model sheep wolves and grass or just sheep and wolves
-INITIAL-NUMBER-SHEEP: The initial size of sheep population
-INITIAL-NUMBER-WOLVES: The initial size of wolf population
-SHEEP-GAIN-FROM-FOOD: The amount of energy sheep get for every grass patch eaten (Note this is not used in the sheep-wolves model version)
-WOLF-GAIN-FROM-FOOD: The amount of energy wolves get for every sheep eaten
-SHEEP-REPRODUCE: The probability of a sheep reproducing at each time step
-WOLF-REPRODUCE: The probability of a wolf reproducing at each time step
-GRASS-REGROWTH-TIME: How long it takes for grass to regrow once it is eaten (Note this is not used in the sheep-wolves model version)
-SHOW-ENERGY?: Whether or not to show the energy of each animal as a number
+Se não restarem lobos e houver muitas ovelhas, a execução do modelo é interrompida.
 
-Notes:
-- one unit of energy is deducted for every step a wolf takes
-- when running the sheep-wolves-grass model version, one unit of energy is deducted for every step a sheep takes
+## PONTOS PARA OBSERVAÇÃO
 
-There are three monitors to show the populations of the wolves, sheep and grass and a populations plot to display the population values over time.
+Ao executar a versão "ovelhas-lobos", observe como as populações de ovelhas e lobos flutuam. Observe que os aumentos e diminuições nos tamanhos de cada população estão relacionados. De que maneira eles estão relacionados? O que acontece eventualmente?
 
-If there are no wolves left and too many sheep, the model run stops.
+Na versão "ovelhas-lobos-grama" do modelo, perceba a linha verde adicionada ao gráfico de população representando as flutuações na quantidade de grama. Como os tamanhos das três populações parecem se relacionar agora? Qual é a explicação para isto?
 
-## THINGS TO NOTICE
+Por que você supõe que algumas variações do modelo podem ser estáveis enquanto que outras não?
 
-When running the sheep-wolves model variation, watch as the sheep and wolf populations fluctuate. Notice that increases and decreases in the sizes of each population are related. In what way are they related? What eventually happens?
+## EXPLORANDO O MODELO
 
-In the sheep-wolves-grass model variation, notice the green line added to the population plot representing fluctuations in the amount of grass. How do the sizes of the three populations appear to relate now? What is the explanation for this?
+Tente ajustar os parâmetros com várias configurações. Verifique o quão sensível é a estabilidade do modelo em relação a um determinado parâmetro.                                                                            
 
-Why do you suppose that some variations of the model might be stable while others are not?
+Você consegue encontrar algum parâmetro que gere um ecossistema estável na versão "ovelhas-lobos" do modelo?  
 
-## THINGS TO TRY
+Tente executar a versão do modelo "ovelhas-lobos-grama", mas definindo o NUMERO-INICIAL-LOBOS como 0. Isto dá um ecossistema estável com apenas ovelhas e grama. Por que isso seria estável enquanto que a variação com apenas ovelhas e lobos não é?
 
-Try adjusting the parameters under various settings. How sensitive is the stability of the model to the particular parameters?
+Observe que sob configurações estáveis, as populações tendem a flutuar em um ritmo previsível. Você consegue identificar algum parâmetro que irá acelerar ou desacelerar esse ritmo?
 
-Can you find any parameters that generate a stable ecosystem in the sheep-wolves model variation?
+## EXPANDINDO O MODELO
 
-Try running the sheep-wolves-grass model variation, but setting INITIAL-NUMBER-WOLVES to 0. This gives a stable ecosystem with only sheep and grass. Why might this be stable while the variation with only sheep and wolves is not?
+Existem várias maneiras de alterar o modelo para que ele fique estável apenas com lobos e ovelhas (sem grama). Alguns exigirão que novos elementos sejam codificados ou que comportamentos existentes sejam modificados. Você consegue desenvolver essa versão?                                                                             
+ 
+Tente modificar as regras de reprodução -- por exemplo, o que aconteceria se a reprodução dependesse da energia ao invés de ser determinada por uma probabilidade fixa?
 
-Notice that under stable settings, the populations tend to fluctuate at a predictable pace. Can you find any parameters that will speed this up or slow it down?
+Você consegue modificar o modelo para que as ovelhas se agrupem?   
+                                                                            
+Você consegue modificar o modelo para que os lobos persigam as ovelhas de maneira ativa?                                                                            
 
-## EXTENDING THE MODEL
+## RECURSOS DO NETLOGO
+                                                                            
+Note o uso de RAÇAS para modelos dois tipos diferentes de "turtles": lobos e ovelhas. Note o uso de PATCHES para modelagem da grama.                                                                            
+                                                                                                                                                       
+Note o uso do ONE-OF agenteset reporter para selecionar uma ovelha aleatória para ser comida por um lobo.                                                                           
 
-There are a number ways to alter the model so that it will be stable with only wolves and sheep (no grass). Some will require new elements to be coded in or existing behaviors to be changed. Can you develop such a version?
+## MODELOS RELACIONADOS
 
-Try changing the reproduction rules -- for example, what would happen if reproduction depended on energy rather than being determined by a fixed probability?
+Procure por "Rabbits Grass Weeds" (coelhos grama ervas-daninhas) para outro modelo com interação de populações com diferentes regras.
 
-Can you modify the model so the sheep will flock?
-
-Can you modify the model so that wolves actively chase sheep?
-
-## NETLOGO FEATURES
-
-Note the use of breeds to model two different kinds of "turtles": wolves and sheep. Note the use of patches to model grass.
-
-Note use of the ONE-OF agentset reporter to select a random sheep to be eaten by a wolf.
-
-## RELATED MODELS
-
-Look at Rabbits Grass Weeds for another model of interacting populations with different rules.
-
-## CREDITS AND REFERENCES
+## CRÉDITOS E REFERÊNCIAS
 
 Wilensky, U. & Reisman, K. (1998). Connected Science: Learning Biology through Constructing and Testing Computational Theories -- an Embodied Modeling Approach. International Journal of Complex Systems, M. 234, pp. 1 - 12. (The Wolf-Sheep-Predation model is a slightly extended version of the model described in the paper.)
 
@@ -505,19 +505,19 @@ Volterra, V. (1926, October 16). Fluctuations in the abundance of a species cons
 
 Gause, G. F. (1934). The struggle for existence. Baltimore: Williams & Wilkins.
 
-## HOW TO CITE
+## COMO CITAR
 
-If you mention this model or the NetLogo software in a publication, we ask that you include the citations below.
-
-For the model itself:
+Se você mencionar este modelo ou o software NetLogo numa publicação, solicitamos que você inclua essas citações abaixo:                                                                            
+                                                                            
+Para o próprio modelo:
 
 * Wilensky, U. (1997).  NetLogo Wolf Sheep Predation model.  http://ccl.northwestern.edu/netlogo/models/WolfSheepPredation.  Center for Connected Learning and Computer-Based Modeling, Northwestern University, Evanston, IL.
 
-Please cite the NetLogo software as:
+Por favor, cite o software Netlogo como:
 
 * Wilensky, U. (1999). NetLogo. http://ccl.northwestern.edu/netlogo/. Center for Connected Learning and Computer-Based Modeling, Northwestern University, Evanston, IL.
 
-## COPYRIGHT AND LICENSE
+## COPYRIGHT E LICENÇA DE USO 
 
 Copyright 1997 Uri Wilensky.
 
