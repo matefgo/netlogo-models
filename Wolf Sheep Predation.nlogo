@@ -1,149 +1,149 @@
-globals [ max-sheep ]  ; Não permite que a população de ovelhas cresça demais.
+globals [ max-ovelhas ]  ; Não permite que a população de ovelhas cresça demais.
 
 ; Ovelhas e Lobos são espécies de turtles
-breed [ sheep a-sheep ]  ; não confundir o nome da RAÇA (no plural) com o nome do turtle (no singular)
-breed [ wolves wolf ]
+breed [ ovelhas ovelha ]  ; não confundir o nome da RAÇA (no plural) com o nome do turtle (no singular)
+breed [ lobos lobo ]
 
-turtles-own [ energy ]       ; tanto ovelhas como lobos possuem energia
+turtles-own [ energia ]       ; tanto ovelhas como lobos possuem energia
 
-patches-own [ countdown ]    ; this is for the sheep-wolves-grass model version
+patches-own [ contagem-regressiva ]    ; this is for the sheep-wolves-grass model version
 
-to setup
-  clear-all
+to configurar
+  clear-all ; limpa a tela
   ifelse netlogo-web? [ set max-sheep 10000 ] [ set max-sheep 30000 ]
 
   ; Checar a versão do modelo selecionada
   ; se não houver modelagem de grama, então as ovelhas não precisam comer para sobreviver
   ; caso contrário, o estado e a lógica de crescimento de cada grama precisa ser configurada
-  ifelse model-version = "sheep-wolves-grass" [
+  ifelse model-version = "ovelhas-lobos-grama" [
     ask patches [
       set pcolor one-of [ green brown ]
       ifelse pcolor = green
-        [ set countdown grass-regrowth-time ]
-      [ set countdown random grass-regrowth-time ] ; inicializa os tempos de recrescimento da grama, de maneira aleatória, para os espaços marrons
+        [ set contagem-regressiva tempo-crescimento-grama ]
+      [ set contagem-regressiva random tempo-crescimento-grama ] ; inicializa os tempos de recrescimento da grama, de maneira aleatória, para os espaços marrons
     ]
   ]
   [
     ask patches [ set pcolor green ]
   ]
 
-  create-sheep initial-number-sheep  ; cria ovelhas e então inicializa as suas variáveis
+  criar-ovelhas numero-inicial-ovelhas ; cria e então inicializa as suas variáveis
   [
     set shape  "sheep"
     set color white
     set size 1.5  ; o tamanho 1.5 facilita a visualização
     set label-color blue - 2
-    set energy random (2 * sheep-gain-from-food)
+    set energia random (2 * ganho-energia-ovelha)
     setxy random-xcor random-ycor
   ]
 
-  create-wolves initial-number-wolves  ; cria lobos e então inicializa as suas variáveis
+  criar-lobos numero-inicial-lobos ; cria lobos e então inicializa as suas variáveis
   [
     set shape "wolf"
     set color black
     set size 2  ; o tamanho 2 facilita a visualização
-    set energy random (2 * wolf-gain-from-food)
+    set energia random (2 * ganho-energia-lobo)
     setxy random-xcor random-ycor
   ]
-  display-labels
+  mostrar-indicadores
   reset-ticks
 end
 
-to go
+to começar
   ; para a simulação caso não hajam lobos ou ovelhas no modelo
   if not any? turtles [ stop ]
   ; para a simulação caso não hajam lobos e o número de ovelhas seja muito grande
-  if not any? wolves and count sheep > max-sheep [ user-message "As ovelhas dominaram a terra." stop ]
-  ask sheep [
-    move
+  if not any? lobos and count ovelhas > max-ovelhas [ user-message "As ovelhas dominaram a terra." stop ]
+  ask ovelhas [
+    mover
 
     ; nesta versão, as ovelhas comem grama, grama cresce e as ovelhas gastam energia para se moverem
-    if model-version = "sheep-wolves-grass" [
-      set energy energy - 1  ; diminui a energia de ovelhas apenas na versão do modelo com grama
-      eat-grass  ; ovelhas comem grama apenas na versão do modelo com grama 
-      death ; ovelhas morrem de fome apenas na versão do modelo com grama 
+    if model-version = "ovelhas-lobos-grama" [
+      set energia energia - 1  ; diminui a energia de ovelhas apenas na versão do modelo com grama
+      comer-grama  ; ovelhas comem grama apenas na versão do modelo com grama 
+      morrer ; ovelhas morrem de fome apenas na versão do modelo com grama 
     ]
 
-    reproduce-sheep  ; ovelhas se reproduzem numa taxa aleatória definida pelo slider
+    reproduzir-ovelhas  ; ovelhas se reproduzem numa taxa aleatória definida pelo slider
   ]
-  ask wolves [
-    move
-    set energy energy - 1  ; lobos perdem energia quando se movem 
-    eat-sheep ; lobos comem uma ovelhas que estejam no mesmo PATCH 
-    death ; lobos morrem se ficarem sem energia
-    reproduce-wolves ; lobos se reproduzem numa taxa aleatória definida pelo slider
+  ask lobos [
+    mover
+    set energia energia - 1  ; lobos perdem energia quando se movem 
+    comer-ovelha ; lobos comem uma ovelhas que estejam no mesmo PATCH 
+    morrer ; lobos morrem se ficarem sem energia
+    reproduzir-lobos ; lobos se reproduzem numa taxa aleatória definida pelo slider
   ]
 
-  if model-version = "sheep-wolves-grass" [ ask patches [ grow-grass ] ]
+  if model-version = "ovelhas-lobos-grama" [ ask patches [ crescer-grama ] ]
 
   tick
   display-labels
 end
 
-to move  ; procedimento de TURTLE 
+to mover  ; procedimento de TURTLE 
   rt random 50
   lt random 50
   fd 1
 end
 
-to eat-grass  ; procedimento de OVELHA
+to comer-grama  ; procedimento de OVELHA
   ; ovelhas comem grama e mudam a cor do PATCH para marrom
   if pcolor = green [
     set pcolor brown
-    set energy energy + sheep-gain-from-food  ; ovelhas ganham energia se alimentando de grama
+    set energia energia + ganho-energia-ovelha  ; ovelhas ganham energia se alimentando de grama
   ]
 end
 
-to reproduce-sheep  ; procedimento de OVELHA
-  if random-float 100 < sheep-reproduce [  ; realiza um sorteio para verificar se haverá reprodução
-    set energy (energy / 2)                ; divide a energia entre o pai e o filho gerado
-    hatch 1 [ rt random-float 360 fd 1 ]   ; gera um filho e o move 1 passo para frente
+to reproduzir-ovelhas  ; procedimento de OVELHA
+  if random-float 100 < reprodução-ovelhas [  ; realiza um sorteio para verificar se haverá reprodução
+    set energia (energia / 2)                 ; divide a energia entre o pai e o filho gerado
+    hatch 1 [ rt random-float 360 fd 1 ]      ; gera um filho e o move 1 passo para frente
   ]
 end
 
-to reproduce-wolves  ; procedimento de LOBO
-  if random-float 100 < wolf-reproduce [  ; realiza um sorteio para verificar se haverá reprodução
-    set energy (energy / 2)               ; divide a energia entre o pai e o filho gerado
-    hatch 1 [ rt random-float 360 fd 1 ]  ; gera um filho e o move 1 passo para frente
+to reproduzir-lobos  ; procedimento de LOBO
+  if random-float 100 < reprodução-lobos [  ; realiza um sorteio para verificar se haverá reprodução
+    set energia (energia / 2)               ; divide a energia entre o pai e o filho gerado
+    hatch 1 [ rt random-float 360 fd 1 ]    ; gera um filho e o move 1 passo para frente
   ]
 end
 
-to eat-sheep  ; procedimento de LOBO
-  let prey one-of sheep-here                    ; seleciona uma ovelha aleatória
+to comer-ovelha  ; procedimento de LOBO
+  let prey one-of ovelhas-here                  ; seleciona uma ovelha aleatória
   if prey != nobody  [                          ; verifica se houve uma captura. caso sim,
     ask prey [ die ]                            ; elimina a ovelha e...
-    set energy energy + wolf-gain-from-food     ; recebe energia se alimentando
+    set energia energia + ganho-energia-lobo    ; recebe energia se alimentando
   ]
 end
 
-to death  ; procedimento de TURTLE (ou seja, procedimento tanto de LOBO quanto de OVELHA)
+to morrer  ; procedimento de TURTLE (ou seja, procedimento tanto de LOBO quanto de OVELHA)
   ; quando a energia fica abaixo de zero, a turtle é eliminada.
-  if energy < 0 [ die ]
+  if energia < 0 [ die ]
 end
 
-to grow-grass  ; procedimento de PATCH
+to crescer-grama  ; procedimento de PATCH
   ; contagem regressiva para PATCHES marrons: quando chegar a 0, a grama cresce
   if pcolor = brown [
-    ifelse countdown <= 0
+    ifelse contagem-regressiva <= 0
       [ set pcolor green
-        set countdown grass-regrowth-time ]
-      [ set countdown countdown - 1 ]
+        set contagem-regressiva tempo-crescimento-grama ]
+      [ set contagem-regressiva contagem-regressiva - 1 ]
   ]
 end
 
-to-report grass
-  ifelse model-version = "sheep-wolves-grass" [
+to-report grama
+  ifelse model-version = "ovelhas-lobos-grama" [
     report patches with [pcolor = green]
   ]
   [ report 0 ]
 end
 
 
-to display-labels
+to mostrar-indicadores
   ask turtles [ set label "" ]
-  if show-energy? [
-    ask wolves [ set label round energy ]
-    if model-version = "sheep-wolves-grass" [ ask sheep [ set label round energy ] ]
+  if mostrar-energia? [
+    ask lobos [ set label round energia ]
+    if model-version = "ovelhas-lobos-grama" [ ask ovelhas [ set label round energia ] ]
   ]
 end
 
@@ -183,8 +183,8 @@ SLIDER
 60
 179
 93
-initial-number-sheep
-initial-number-sheep
+numero-inicial-ovelhas
+numero-inicial-ovelhas
 0
 250
 100
@@ -198,8 +198,8 @@ SLIDER
 196
 179
 229
-sheep-gain-from-food
-sheep-gain-from-food
+ganho-energia-ovelhas
+ganho-energia-ovelhas
 0.0
 50.0
 4
@@ -213,8 +213,8 @@ SLIDER
 231
 179
 264
-sheep-reproduce
-sheep-reproduce
+reprodução-ovelhas
+reprodução-ovelhas
 1.0
 20.0
 4
@@ -228,8 +228,8 @@ SLIDER
 60
 350
 93
-initial-number-wolves
-initial-number-wolves
+numero-inicial-lobos
+numero-inicial-lobos
 0
 250
 50
@@ -243,8 +243,8 @@ SLIDER
 195
 348
 228
-wolf-gain-from-food
-wolf-gain-from-food
+ganho-energia-lobos
+ganho-energia-lobos
 0.0
 100.0
 20
@@ -258,8 +258,8 @@ SLIDER
 231
 348
 264
-wolf-reproduce
-wolf-reproduce
+reprodução-lobos
+reprodução-lobos
 0.0
 20.0
 5
@@ -273,8 +273,8 @@ SLIDER
 100
 252
 133
-grass-regrowth-time
-grass-regrowth-time
+tempo-crescimento-grama
+tempo-crescimento-grama
 0
 100
 30
@@ -288,8 +288,8 @@ BUTTON
 140
 109
 173
-setup
-setup
+Configurar
+configurar
 NIL
 1
 T
@@ -305,8 +305,8 @@ BUTTON
 140
 190
 173
-go
-go
+Começar
+começar
 T
 1
 T
@@ -322,9 +322,9 @@ PLOT
 360
 350
 530
-populations
-time
-pop.
+Populações
+Tempo
+Pop.
 0
 100
 0
@@ -333,17 +333,17 @@ true
 true
 "" ""
 PENS
-"sheep" 1 0 -612749 true "" "plot count sheep"
-"wolves" 1 0 -16449023 true "" "plot count wolves"
-"grass / 4" 1 0 -10899396 true "" "if model-version = \"sheep-wolves-grass\" [ plot count grass / 4 ]"
+"ovelhas" 1 0 -612749 true "" "plot count ovelhas"
+"lobos" 1 0 -16449023 true "" "plot count lobos"
+"grama / 4" 1 0 -10899396 true "" "if model-version = \"ovelhas-lobos-grama\" [ plot count grama / 4 ]"
 
 MONITOR
 41
 308
 111
 353
-sheep
-count sheep
+ovelhas
+count ovelhas
 3
 1
 11
@@ -353,8 +353,8 @@ MONITOR
 308
 185
 353
-wolves
-count wolves
+lobos
+count lobos
 3
 1
 11
@@ -364,8 +364,8 @@ MONITOR
 308
 256
 353
-grass
-count grass / 4
+grama
+count grama / 4
 0
 1
 11
@@ -375,7 +375,7 @@ TEXTBOX
 178
 160
 196
-Sheep settings
+Ovelhas settings
 11
 0
 0
@@ -385,7 +385,7 @@ TEXTBOX
 176
 311
 194
-Wolf settings
+Lobos settings
 11
 0
 0
@@ -395,8 +395,8 @@ SWITCH
 270
 241
 303
-show-energy?
-show-energy?
+mostrar-energia?
+mostrar-energia?
 1
 1
 -1000
@@ -406,9 +406,9 @@ CHOOSER
 10
 350
 55
-model-version
-model-version
-"sheep-wolves" "sheep-wolves-grass"
+versão-modelo
+versão-modelo
+"ovelhas-lobos" "ovelhas-lobos-grama"
 0
 @#$#@#$#@
 ## O QUE É?
