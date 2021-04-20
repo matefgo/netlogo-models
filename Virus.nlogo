@@ -44,9 +44,9 @@ to ficar-doente ;; procedimento de TURTLE (para torna-se INFECTADO)
 end
 
 to ficar-saudavel ;; procedimento de TURTLE (para voltar a ser SAUDÁVEL)
-  set sick? false
-  set immune? false
-  set sick-count 0
+  set infectado? false
+  set imune? false
+  set semanas-doente 0
   set color green
 end
 
