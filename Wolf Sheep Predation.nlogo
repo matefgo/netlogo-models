@@ -198,8 +198,8 @@ SLIDER
 196
 179
 229
-ganho-energia-ovelhas
-ganho-energia-ovelhas
+ganho-energia-ovelha
+ganho-energia-ovelha
 0.0
 50.0
 4
@@ -243,8 +243,8 @@ SLIDER
 195
 348
 228
-ganho-energia-lobos
-ganho-energia-lobos
+ganho-energia-lobo
+ganho-energia-lobo
 0.0
 100.0
 20
