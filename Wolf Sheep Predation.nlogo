@@ -27,7 +27,7 @@ to configurar
     ask patches [ set pcolor green ]
   ]
 
-  criar-ovelhas numero-inicial-ovelhas ; cria e então inicializa as suas variáveis
+  create-ovelhas numero-inicial-ovelhas ; cria e então inicializa as suas variáveis
   [
     set shape  "sheep"
     set color white
@@ -37,7 +37,7 @@ to configurar
     setxy random-xcor random-ycor
   ]
 
-  criar-lobos numero-inicial-lobos ; cria lobos e então inicializa as suas variáveis
+  create-lobos numero-inicial-lobos ; cria lobos e então inicializa as suas variáveis
   [
     set shape "wolf"
     set color black
