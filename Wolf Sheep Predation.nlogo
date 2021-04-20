@@ -10,7 +10,7 @@ patches-own [ contagem-regressiva ]    ; this is for the sheep-wolves-grass mode
 
 to configurar
   clear-all ; limpa a tela
-  ifelse netlogo-web? [ set max-sheep 10000 ] [ set max-sheep 30000 ]
+  ifelse netlogo-web? [ set max-ovelhas 10000 ] [ set max-ovelhas 30000 ]
 
   ; Checar a versão do modelo selecionada
   ; se não houver modelagem de grama, então as ovelhas não precisam comer para sobreviver
