@@ -6,7 +6,7 @@ breed [ lobos lobo ]
 
 turtles-own [ energia ]       ; tanto ovelhas como lobos possuem energia
 
-patches-own [ contagem-regressiva ]    ; this is for the sheep-wolves-grass model version
+patches-own [ contagem-regressiva ]    ; isto é para a versão "ovelhas-lobos-grama" do modelo
 
 to configurar
   clear-all ; limpa a tela
@@ -15,7 +15,7 @@ to configurar
   ; Checar a versão do modelo selecionada
   ; se não houver modelagem de grama, então as ovelhas não precisam comer para sobreviver
   ; caso contrário, o estado e a lógica de crescimento de cada grama precisa ser configurada
-  ifelse model-version = "ovelhas-lobos-grama" [
+  ifelse versão-modelo = "ovelhas-lobos-grama" [
     ask patches [
       set pcolor one-of [ green brown ]
       ifelse pcolor = green
@@ -58,7 +58,7 @@ to começar
     mover
 
     ; nesta versão, as ovelhas comem grama, grama cresce e as ovelhas gastam energia para se moverem
-    if model-version = "ovelhas-lobos-grama" [
+    if versão-modelo = "ovelhas-lobos-grama" [
       set energia energia - 1  ; diminui a energia de ovelhas apenas na versão do modelo com grama
       comer-grama  ; ovelhas comem grama apenas na versão do modelo com grama 
       morrer ; ovelhas morrem de fome apenas na versão do modelo com grama 
@@ -74,7 +74,7 @@ to começar
     reproduzir-lobos ; lobos se reproduzem numa taxa aleatória definida pelo slider
   ]
 
-  if model-version = "ovelhas-lobos-grama" [ ask patches [ crescer-grama ] ]
+  if versão-modelo = "ovelhas-lobos-grama" [ ask patches [ crescer-grama ] ]
 
   tick
   display-labels
@@ -132,7 +132,7 @@ to crescer-grama  ; procedimento de PATCH
 end
 
 to-report grama
-  ifelse model-version = "ovelhas-lobos-grama" [
+  ifelse versão-modelo = "ovelhas-lobos-grama" [
     report patches with [pcolor = green]
   ]
   [ report 0 ]
@@ -143,7 +143,7 @@ to mostrar-indicadores
   ask turtles [ set label "" ]
   if mostrar-energia? [
     ask lobos [ set label round energia ]
-    if model-version = "ovelhas-lobos-grama" [ ask ovelhas [ set label round energia ] ]
+    if versão-modelo = "ovelhas-lobos-grama" [ ask ovelhas [ set label round energia ] ]
   ]
 end
 
@@ -335,7 +335,7 @@ true
 PENS
 "ovelhas" 1 0 -612749 true "" "plot count ovelhas"
 "lobos" 1 0 -16449023 true "" "plot count lobos"
-"grama / 4" 1 0 -10899396 true "" "if model-version = \"ovelhas-lobos-grama\" [ plot count grama / 4 ]"
+"grama / 4" 1 0 -10899396 true "" "if versão-modelo = \"ovelhas-lobos-grama\" [ plot count grama / 4 ]"
 
 MONITOR
 41
