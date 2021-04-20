@@ -273,7 +273,7 @@ SLIDER
 100
 252
 133
-Tempo do crescimento da Grama
+Tempo para grama crescer
 tempo-crescimento-grama
 0
 100
@@ -375,7 +375,7 @@ TEXTBOX
 178
 160
 196
-Configuração das Ovelhas
+Configurar Ovelhas
 11
 0
 0
@@ -385,7 +385,7 @@ TEXTBOX
 176
 311
 194
-Configuração dos Lobos
+Configurar Lobos
 11
 0
 0
