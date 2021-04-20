@@ -183,7 +183,7 @@ SLIDER
 60
 179
 93
-numero-inicial-ovelhas
+Número de Ovelhas
 numero-inicial-ovelhas
 0
 250
@@ -198,7 +198,7 @@ SLIDER
 196
 179
 229
-ganho-energia-ovelha
+Energia comendo grama
 ganho-energia-ovelha
 0.0
 50.0
@@ -213,7 +213,7 @@ SLIDER
 231
 179
 264
-reprodução-ovelhas
+Taxa de Reprodução
 reprodução-ovelhas
 1.0
 20.0
@@ -228,7 +228,7 @@ SLIDER
 60
 350
 93
-numero-inicial-lobos
+Número de Lobos
 numero-inicial-lobos
 0
 250
@@ -243,7 +243,7 @@ SLIDER
 195
 348
 228
-ganho-energia-lobo
+Energia pós-caça
 ganho-energia-lobo
 0.0
 100.0
@@ -258,7 +258,7 @@ SLIDER
 231
 348
 264
-reprodução-lobos
+Taxa de Reprodução
 reprodução-lobos
 0.0
 20.0
@@ -273,7 +273,7 @@ SLIDER
 100
 252
 133
-tempo-crescimento-grama
+Tempo do crescimento da Grama
 tempo-crescimento-grama
 0
 100
@@ -322,9 +322,9 @@ PLOT
 360
 350
 530
-Populações
+População
 Tempo
-Pop.
+População
 0
 100
 0
@@ -375,7 +375,7 @@ TEXTBOX
 178
 160
 196
-Ovelhas settings
+Configuração das Ovelhas
 11
 0
 0
@@ -385,7 +385,7 @@ TEXTBOX
 176
 311
 194
-Lobos settings
+Configuração dos Lobos
 11
 0
 0
@@ -395,7 +395,7 @@ SWITCH
 270
 241
 303
-mostrar-energia?
+Mostrar energia?
 mostrar-energia?
 1
 1
@@ -406,7 +406,7 @@ CHOOSER
 10
 350
 55
-versão-modelo
+Versão do Modelo
 versão-modelo
 "ovelhas-lobos" "ovelhas-lobos-grama"
 0
