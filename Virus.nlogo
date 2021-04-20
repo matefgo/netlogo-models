@@ -1,102 +1,102 @@
 turtles-own
-  [ sick?        ;; se TRUE, o turtle está INFECTADO
-    immune?      ;; se TRUE, o turtle está IMUNE
-    sick-count   ;; quanto tempo o turtle está infectado
-    age ]        ;; quantas semanas de idade o turtle possui
+  [ infectado?        ;; se TRUE, o turtle está INFECTADO
+    imune?      ;; se TRUE, o turtle está IMUNE
+    semanas-doente   ;; quanto tempo o turtle está infectado
+    idade ]        ;; quantas SEMANAS de idade o turtle possui
 
 globals
 [
-  %infected            ;; a porcentagem da população que está INFECTADA
-  %immune              ;; a porcentagem da população que está IMUNE
-  lifespan             ;; o tempo médio de vida de um turtle
-  average-offspring    ;; o número médio de filhos que um turtle pode gerar
-  carrying-capacity    ;; o número total de turtles que podem estar no modelo ao mesmo tempo
+  %infectado            ;; a porcentagem da população que está INFECTADA
+  %imune              ;; a porcentagem da população que está IMUNE
+  tempo-de-vida             ;; o tempo médio de vida de um turtle
+  numero-filhos    ;; o número médio de filhos que um turtle pode gerar
+  capacidade-total    ;; o número total de turtles que podem estar no modelo ao mesmo tempo
 ]
 
 ;; O setup (botão CONFIGURAR) está dividido em 3 subrotinas
-to setup
-  clear-all
-  setup-constants
-  setup-turtles
-  update-global-variables
-  reset-ticks
+to configurar
+  clear-all ;; comando padrão para limpar tela
+  configurar-constantes
+  configurar-turtles
+  atualizar-variaveis-globais
+  reset-ticks ;; comando padrão para reiniciar o contador de ticks (tempo)
 end
 
-;; Nós criamos um número aleatório de turtles sendo 10 destas no estado INFECTADOm
+;; Nós criamos um número aleatório de turtles sendo 10 destas no estado INFECTADO
 ;; e eles são distribuidos aleatoriamente.
-to setup-turtles
+to configurar-turtles
   set-default-shape turtles "person"
   crt pessoa ;; anteriormente: "people"
     [ setxy random-xcor random-ycor
-      set age random lifespan
-      set sick-count 0
-      set immune? false
-      set size 1.5  ;; easier to see
-      get-healthy ]
+      set idade random tempo-de-vida
+      set semanas-doente 0
+      set imune? false
+      set size 1.5  ;; define o tamanho de exibição das turtles. 1.5 é mais fácil de visualizar
+      ficar-saudavel ]
   ask n-of 10 turtles
-    [ get-sick ]
+    [ ficar-doente ]
 end
 
-to get-sick ;; procedimento de TURTLE (para se infectar)
-  set sick? true
-  set immune? false
+to ficar-doente ;; procedimento de TURTLE (para torna-se INFECTADO)
+  set infectado? true
+  set imune? false
   set color red
 end
 
-to get-healthy ;; procedimento de TURTLE (para voltar a ser SAUDÁVEL)
+to ficar-saudavel ;; procedimento de TURTLE (para voltar a ser SAUDÁVEL)
   set sick? false
   set immune? false
   set sick-count 0
   set color green
 end
 
-to become-immune ;; procedimento de TURTLE (para tornar-se IMUNE)
-  set sick? false
-  set sick-count 0
-  set immune? true
+to ficar-imune ;; procedimento de TURTLE (para tornar-se IMUNE)
+  set infectado? false
+  set semanas-doente 0
+  set imune? true
   set color gray
 end
 
-to setup-constants
-  set lifespan 100
-  set carrying-capacity 750
-  set average-offspring 4
+to configurar-constantes
+  set tempo-de-vida 100
+  set capacidade-total 750
+  set numero-filhos 4
 end
 
-to go
-  get-older
-  move
-  infect
-  recover
-  reproduce
-  update-global-variables
-  tick
+to começar
+  envelhecer
+  mover
+  infectar
+  recuperar
+  reproduzir
+  atualizar-variaveis-globais
+  tick ;; adianta o tempo em +1
 end
 
-to update-global-variables
+to atualizar-variaveis-globais
   if count turtles > 0
   [
-    set %infected (count turtles with [sick?]) / (count turtles) * 100
-    set %immune (count turtles with [immune?]) / (count turtles) * 100
+    set %infectado (count turtles with [infectado?]) / (count turtles) * 100
+    set %imune (count turtles with [imune?]) / (count turtles) * 100
   ]
 end
 
 ;; Variáveis de contagem das turtles abaixo.
-to get-older ;; Envelhecer as turtles
+to envelhecer ;; Envelhecer as turtles
   ask turtles
   [
-    set age age + 1
-    if sick?
-      [ set sick-count (sick-count + 1) ]
+    set idade idade + 1
+    if infectado?
+      [ set semanas-doente (semanas-doente + 1) ]
     ;; Turtles morrem de velhice assim que suas idades se igualam ao
     ;; tempo médio de vida (fixado em 1500 semanas neste modelo).
-    if age > lifespan
-      [ die ]
+    if idade > tempo-de-vida
+      [ die ] ;; comando de eliminação de turtle.
   ]
 end
 
-;;Turtles se movem aleatoriamente.
-to move
+;; Turtles se movem aleatoriamente.
+to mover
   ask turtles
   [ rt random 100
     lt random 100
@@ -105,20 +105,20 @@ end
 
 ;; Se uma turtle está doente, esta infecta outras turtles no mesmo espaço (PATCH)
 ;; Turtles no estado IMUNE não ficam infectadas.
-to infect
-  ask turtles with [sick?]
-    [ ask other turtles-here with [ not immune? ]
+to infectar
+  ask turtles with [infectado?]
+    [ ask other turtles-here with [ not imune? ] ;; se houverem turtles no mesmo espaço (PATCH), verifica se não estão imunes
         [ if (random-float 100) < Infecciosidade ;; anteriormente: "infectiousness"
-            [ get-sick ] ] ]
+            [ ficar-doente ] ] ]
 end
 
 ;; Assim que uma turtle ficou doente por tempo suficiente,
-;; ela ou irá recuperar-se (e tornar-se imune) ou morrerá.
-to recover
-   ask turtles with [sick?]
-     [ if (random sick-count) > (lifespan * (duração / 100))  ;; Se uma turtle sobreviveu para além da DURAÇÃO da infecção do vírus, então:
+;; ela ou irá se recuperar (tornando-se imune) ou morrerá.
+to recuperar
+   ask turtles with [infectado?]
+     [ if (random semanas-doente) > (tempo-de-vida * (duração / 100))  ;; Se uma turtle sobreviveu para além da DURAÇÃO da infecção do vírus, então:
          [ ifelse ((random-float 100) < chance-de-recuperação) ;; anteriormente: "chance-recover"
-             [ become-immune ] ;; irá se recuperar ou morrer.
+             [ ficar-imune ] ;; irá se recuperar ou morrer.
              [ die ] ] ]
 end
 
@@ -128,14 +128,14 @@ end
 ;; de filhos que uma turtle pode gerar por vida. Neste modelo são 4 filhos por vida (por exemplo
 ;; 4 por 100 semanas). Portanto, a chance de uma turtle se reproduzir em qualquer turno é de 0.04,
 ;; isto se a população estiver abaixo do valor da CAPACIDADE TOTAL definida anteriormente.
-to reproduce
-  ask turtles with [not sick?]
-    [ if (count turtles) < carrying-capacity
-         and (random lifespan) < average-offspring
+to reproduzir
+  ask turtles with [not infectado?]
+    [ if (count turtles) < capacidade-total
+         and (random tempo-de-vida) < numero-filhos
        [ hatch 1
-           [ set age 1
+           [ set idade 1
              lt 45 fd 1
-             get-healthy ] ] ]
+             ficar-saudavel ] ] ]
 end
 
 
@@ -181,7 +181,7 @@ Duração
 20.0
 1.0
 1
-weeks
+semanas
 HORIZONTAL
 
 SLIDER
@@ -220,7 +220,7 @@ BUTTON
 143
 100
 Configurar
-setup
+configurar
 NIL
 1
 T
@@ -237,7 +237,7 @@ BUTTON
 209
 101
 Começar
-go
+começar
 T
 1
 T
@@ -264,9 +264,9 @@ true
 true
 "" ""
 PENS
-"infectados" 1.0 0 -2674135 true "" "plot count turtles with [sick?]"
-"imunes" 1.0 0 -7500403 true "" "plot count turtles with [immune?]"
-"saudáveis" 1.0 0 -10899396 true "" "plot count turtles with [not sick? and not immune?]"
+"infectados" 1.0 0 -2674135 true "" "plot count turtles with [infectado?]"
+"imunes" 1.0 0 -7500403 true "" "plot count turtles with [imune?]"
+"saudáveis" 1.0 0 -10899396 true "" "plot count turtles with [not infectado? and not imune?]"
 "total" 1.0 0 -13345367 true "" "plot count turtles"
 
 SLIDER
@@ -290,7 +290,7 @@ MONITOR
 95
 253
 Infectados
-%infected
+%infectado
 1
 1
 11
@@ -301,7 +301,7 @@ MONITOR
 170
 253
 Imunes
-%immune
+%imune
 1
 1
 11
