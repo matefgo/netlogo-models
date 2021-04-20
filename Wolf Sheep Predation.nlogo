@@ -77,7 +77,7 @@ to começar
   if versão-modelo = "ovelhas-lobos-grama" [ ask patches [ crescer-grama ] ]
 
   tick
-  display-labels
+  mostrar-indicadores
 end
 
 to mover  ; procedimento de TURTLE 
