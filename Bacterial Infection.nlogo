@@ -806,9 +806,9 @@ Existem dois pacientes neste modelo (paciente A e paciente B). O ambiente dentro
 
 ## COMO USAR
 
-REPRODUZ? - liga ou desliga a reprodução das bactérias em ambos os pacientes.
+REPRODUZIR? - liga ou desliga a reprodução das bactérias em ambos os pacientes.
 
-TEMPO-REPRODUÇÃO - determina a frequência de reprodução das bactérias em ambos os pacientes, quando o REPRODUZ? estiver ativado.
+TEMPO-REPRODUÇÃO - determina a frequência de reprodução das bactérias em ambos os pacientes, quando o REPRODUZIR? estiver ativado.
 
 Os INIT#-3PORES-A, INIT#-4PORES-A, INIT#-5PORES-A and INIT#-6PORES-A sliders determinam o número de bactérias para cada tipo de variação de membrana celular que o paciente A vai começar a simulação.
 
@@ -827,25 +827,25 @@ AUTO-DOSAGEM-A? e AUTO-DOSAGEM-B? determinam se um regime de dosagem administrad
 
 ## EXPLORANDO O MODELO
 
-Try growing bacteria without any antibiotics at first (set REPRODUCE? to "on" and set both AUTO-DOSE-A? and AUTO-DOSE-B? to "no, skip all dosing").   If you start with equal numbers of each variation in the population, does one variation do better by the time the entire environment is filled with bacteria?
+Tente cultivar as bactérias sem nenhum antibiótico no início (ative o REPRODUZIR? e defina ambas AUTO-DOSAGEM-A? e AUTO-DOSAGEM-B? como "não, ignore todas as dosagens"). Se você começar com o mesmo número de bactérias para cada variação na população, uma variação se sobressai quando todo o ambiente estiver cheio de bactérias?
 
-Try not growing bacteria (set REPRODUCE to "off"), and apply a single dose of antibiotic (using the MANUAL DOSE buttons).  Does one variation tend to survive a single dose of antibiotics more often than other variations?
+Tente não cultivar bactérias (desative o REPRODUZIR?) e aplique uma única dose de antibiótico (utilizando os botões DOSE MANUAL). Alguma variação tende a sobreviver a uma única dose de antibiótico mais frequentemente do que outras variações?
 
-Try growing bacteria with regular antibiotics dosing (set REPRODUCE? to "on" and set both AUTO-DOSE-A? and AUTO-DOSE-B? to "yes, skip no doses").   What levels for A-dosage and B-dosage, seem to be the tipping point for  reliably kill off the bacteria after a few doses?
+Tente cultivar bactérias com dosagens regulares de antibióticos (ative o REPRODUZIR? e defina AUTO-DOSAGEM-A? e AUTO-DOSAGEM-B? para "sim, todas as doses"). Quais concentrações de DOSAGEM-A e DOSAGEM-B parecem ser o ponto de inflexão para matar as bactérias de maneira confiável após algumas doses?
 
-Repeat the last experiment, but with slightly lower doses, or faster reproduction (REPRODUCE-EVERY) or by changing the AUTO-DOSE-A? and AUTO-DOSE-B? to skip one of the doses. What happens to the bacteria population in these cases?
+Repita o último experimento, mas com doses ligeiramente menores, ou reprodução mais rápida (TEMPO-REPRODUÇÃO) ou alterando os AUTO-DOSAGEM-A? e AUTO-DOSAGEM-B? para pular uma das doses. O que acontece com a população de bactérias neste caso?
 
 ## EXPANDINDO O MODELO
 
-The model could be extended so that food resources were scattered through the environment, and bacteria would need to absorb a certain threshold of food from their surroundings in order to reproduce.  And bacteria with more pores in their cell membrane would absorb food more quickly than those that don't.
+O modelo por ser expandido para que os recursos alimentares sejam espalhados pelo ambiente e as bactérias precisariam absorver uma certa quantidade de alimentos ao seu redor para se reproduzirem. E as bactérias com mais poros (orifícios nas suas membranas) absorveriam mais comida do que aquelas com menos poros.
 
-Other trait variations (like number of flagella related to speed of movement and metabolism), or cell membrane thickness (related to how fast antiseptics dissolve the cell membrane) could be added to the model.  Additional food expenditure costs could be built in for the building blocks needed from food to make these additional structures during reproduction.
-
-See the Bacteria Food Hunt model in the models library for additional ideas.
+Outras variações de características (como número de flagelos, relacionados a velocidade de movimento e metabolismo), ou espessura da membrana celular (relacionada a quão rapidamente os anti-sépticos dissolvem as membranas celulares) podem ser adicionadas ao modelo. Custos de alimentação podem ser adicionados para a construção dessas novas estruturas e características quando forem se reproduzir.
+ 
+Veja o modelo "Bacteria Food HUnt" na biblioteca de modelos para ideias adicionais.
 
 ## MODELOS RELACIONADOS
 
-Bacteria Hunt Speeds and Bacteria Food Hunt.
+"Bacteria Hunt Speeds" e "Bacteria Food Hunt".
 
 ## CRÉDITOS E REFERÊNCIAS
 
