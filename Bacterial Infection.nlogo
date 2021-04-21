@@ -792,40 +792,40 @@ false
 PENS
 
 @#$#@#$#@
-## WHAT IS IT?
+## O QUE É?
 
-This is a natural/artificial selection model that shows how a population of bacteria can become more antibiotic resistant over time.  The model represents an environment in a patient taking a regiment of antibiotics.
+Este é um modelo de seleção natural/artificial que mostra como uma população de bactéria pode se tornar mais resistente a antibióticos com o passar do tempo. Esse modelo representa um ambiente dentro de um paciente que está tomando antibióticos.
 
-## HOW IT WORKS
+## COMO FUNCIONA
 
-Bacteria reproduce asexually, after reaching a certain age, and if there is available space (open patches next to them) for them to move into.
+As bactérias se reproduzem assexuadamente, após atigirem certa idade, e se houver espaço disponível (PATCHES vazios próximos a elas) para elas se moverem.
 
-Antibiotics particles kill bacteria when they reach a bacterium and enter through one of its holes in its cell membrane.  Bacteria come in different variations for cell membrane porosity (different variations have different # of holes in their membranes).  The number of holes in the cell membrane affects the odds of an antibiotic entering the bacteria.
+As partículas de antibióticos matam bactérias quando as alcançam e penetram por orifícios presentes em suas membranas celulares. As bactérias apresetam diferentes variações na porosidade de membranas celulares (diferentes variações possuem diferentes números de orifícios em suas membranas). O números de orifícios numa membrana celular afeta as chances de um antibiótico entrar na bactéria.
 
-There are two patients in this model (patient A and patient B).  The environment in each patient represents the circulatory system of that patient.  The top red line represents where antibiotics enter the blood stream (e.g. through small intestine or an IV).  The bottom yellow line represents where antibiotics are broken down and removed from the blood stream (e.g. the liver or the kidneys).
+Existem dois pacientes neste modelo (paciente A e paciente B). O ambiente dentro de cada paciente representa o sistema circulatório dele. A linha vermelha superior representa por onde os antibióticos entram na corrente sanguínea (por exemplo, pelo intestino delgado ou intravenoso). A linha amarela inferior representa por onde os antibióticos são decompostos e removidos da corrente sanguínea (por exemplo, fígado ou rins).
 
-## HOW TO USE IT
+## COMO USAR
 
-REPRODUCE? turns on and off bacteria reproduction in both patients.
+REPRODUZ? - liga ou desliga a reprodução das bactérias em ambos os pacientes.
 
-REPRODUCE-EVERY determines how often bacteria can reproduce in both patients, when REPRODUCE? is on.
+TEMPO-REPRODUÇÃO - determina a frequência de reprodução das bactérias em ambos os pacientes, quando o REPRODUZ? estiver ativado.
 
-The INIT#-3PORES-A, INIT#-4PORES-A, INIT#-5PORES-A and INIT#-6PORES-A sliders determine the number of bacteria for each cell membrane variation that patient A will start with.
+Os INIT#-3PORES-A, INIT#-4PORES-A, INIT#-5PORES-A and INIT#-6PORES-A sliders determinam o número de bactérias para cada tipo de variação de membrana celular que o paciente A vai começar a simulação.
 
-The INIT#-3PORES-B, INIT#-4PORES-B, INIT#-5PORES-B and INIT#-6PORES-B sliders do the same thing for patient B.
+Os INIT#-3PORES-B, INIT#-4PORES-B, INIT#-5PORES-B and INIT#-6PORES-B sliders fazem a mesma coisa, mas para o paciente B.
 
-The MANUAL DOSE A and MANUAL DOSE B buttons administer a single dose of antibiotic to that patient.
+Os botões DOSE MANUAL - A e DOSE MANUAL - B administram uma única dose de antibiótico para o respectivo paciente.
 
-A-DOSAGE and B-DOSAGE determine the amount of antibiotic administered in a dose to that patient.
+DOSAGEM-A e DOSAGEM-B determinam a quantidade de antibiótico administrada em uma dose para o respectivo paciente.
 
-AUTO-DOSE-A? and AUTO-DOSE-B? determine whether an automatically administered dosing regiment is followed for that patient.  Options include:
+AUTO-DOSAGEM-A? e AUTO-DOSAGEM-B? determinam se um regime de dosagem administrada automaticamente vai ser seguida para o respectivo paciente. As opções são:
 
-- "no" = no antibiotics are automatically administered
-- "yes, every dose" = a dose is automatically administered at a rate determined by       the AUTO-DOSE-A-EVERY or AUTO-DOSE-B-EVERY slider
-- "yes, but skip dose 2" = same as above, but dose 2 is skipped.
-- "yes, but skip dose 3" = similar to previous, but dose 3 is skipped.
+- "não" = nenhum antibiótico é administrado automaticamente
+- "sim, todas as doses" = uma dose é automaticamente administrada a uma frequência determinada pels sliders TEMPO-AUTO-DOSAGEM-A ou TEMPO-AUTO-DOSAGEM-B.
+- "sim, mas pule a dose 2" = semelhante ao anterior, mas a segunda dose é ignorada.
+- "sim, mas pule a dose 3" = semelhante ao anterior, mas a terceira dose é ignorada.
 
-## THINGS TO TRY
+## EXPLORANDO O MODELO
 
 Try growing bacteria without any antibiotics at first (set REPRODUCE? to "on" and set both AUTO-DOSE-A? and AUTO-DOSE-B? to "no, skip all dosing").   If you start with equal numbers of each variation in the population, does one variation do better by the time the entire environment is filled with bacteria?
 
@@ -835,7 +835,7 @@ Try growing bacteria with regular antibiotics dosing (set REPRODUCE? to "on" and
 
 Repeat the last experiment, but with slightly lower doses, or faster reproduction (REPRODUCE-EVERY) or by changing the AUTO-DOSE-A? and AUTO-DOSE-B? to skip one of the doses. What happens to the bacteria population in these cases?
 
-## EXTENDING THE MODEL
+## EXPANDINDO O MODELO
 
 The model could be extended so that food resources were scattered through the environment, and bacteria would need to absorb a certain threshold of food from their surroundings in order to reproduce.  And bacteria with more pores in their cell membrane would absorb food more quickly than those that don't.
 
@@ -843,17 +843,17 @@ Other trait variations (like number of flagella related to speed of movement and
 
 See the Bacteria Food Hunt model in the models library for additional ideas.
 
-## RELATED MODELS
+## MODELOS RELACIONADOS
 
 Bacteria Hunt Speeds and Bacteria Food Hunt.
 
-## CREDITS AND REFERENCES
+## CRÉDITOS E REFERÊNCIAS
 
 This model is part of a high school unit on evolution, "Why Don't Antibiotics Work Like They Used To?"  The unit is freely available on https://www.nextgenstorylines.org
 
 This model and related curricular materials were developed with funding through a grant from the Gordon and Betty Moore Foundation to Northwestern University and the University of Colorado Boulder.
 
-## HOW TO CITE
+## COMO CITAR
 
 If you mention this model or the NetLogo software in a publication, we ask that you include the citations below.
 
@@ -865,7 +865,7 @@ Please cite the NetLogo software as:
 
 * Wilensky, U. (1999). NetLogo. http://ccl.northwestern.edu/netlogo/. Center for Connected Learning and Computer-Based Modeling, Northwestern University, Evanston, IL.
 
-## COPYRIGHT AND LICENSE
+## COPYRIGHT E LICENÇA DE USO
 
 Copyright 2016 Uri Wilensky.
 
