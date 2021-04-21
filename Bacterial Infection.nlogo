@@ -849,19 +849,19 @@ Veja o modelo "Bacteria Food HUnt" na biblioteca de modelos para ideias adiciona
 
 ## CRÉDITOS E REFERÊNCIAS
 
-This model is part of a high school unit on evolution, "Why Don't Antibiotics Work Like They Used To?"  The unit is freely available on https://www.nextgenstorylines.org
+Este modelo é parte de uma unidade de ensino médio sobre evolução, "Why Don't Antibiotics Work Like They Used To?" (Por que os antibióticos não funcionam como antigamente?). A unidade está disponível gratuitamente em: https://www.nextgenstorylines.org
 
-This model and related curricular materials were developed with funding through a grant from the Gordon and Betty Moore Foundation to Northwestern University and the University of Colorado Boulder.
+Este modelo e materiais curriculares relacionados foram desenvolvidos com financiamento através de uma bolsa concedida pela Fundação Gordon and Betty Moore para a Northwestern University e a University of Colorado Boulder.
 
 ## COMO CITAR
 
-If you mention this model or the NetLogo software in a publication, we ask that you include the citations below.
-
-For the model itself:
+Se você mencionar este modelo ou o software NetLogo numa publicação, solicitamos que você inclua essas citações abaixo:                                                                            
+                                                                            
+Para o próprio modelo:
 
 * Novak, M. and Quigley, D and Wilensky, U. (2016).  NetLogo Bacterial Infection model.  http://ccl.northwestern.edu/netlogo/models/BacterialInfection.  Center for Connected Learning and Computer-Based Modeling, Northwestern University, Evanston, IL.
 
-Please cite the NetLogo software as:
+Por favor, cite o software Netlogo como:
 
 * Wilensky, U. (1999). NetLogo. http://ccl.northwestern.edu/netlogo/. Center for Connected Learning and Computer-Based Modeling, Northwestern University, Evanston, IL.
 
